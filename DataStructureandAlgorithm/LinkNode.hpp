@@ -71,8 +71,9 @@ public:
 		first = new Node(tempVal);
 		Node* tail_ptr=first;
 		length = 1;
-		while (cin >> tempVal && cin.get()!='\n')
+		while (cin.get()!='\n')
 		{
+			cin >> tempVal;
 			Node* temp = new Node(tempVal);
 			tail_ptr->next = temp;
 			tail_ptr = temp;
@@ -166,9 +167,126 @@ public:
 		cur_ptr->val = temp;
 	}
 	/*排序：对链表排序*/
+	//插入排序
 	void sort()
 	{
+		if (length == 1) return;
+		//pre_cur:记录遍历位置的前指针
+		//pre_insert：记录插入位置的前指针
+		Node* cur_ptr = first;
+		Node* pre_cur = cur_ptr;
+		cur_ptr = cur_ptr->next;
 
+		while (cur_ptr != NULL)
+		{
+			int insert_val = cur_ptr->val;
+			
+			if (insert_val <= first->val)
+			{
+				pre_cur->next = cur_ptr->next;
+				cur_ptr->next = first;
+				first = cur_ptr;
+				pre_cur = pre_cur->next;
+				cur_ptr = pre_cur->next;
+				continue;
+			}
+
+			Node* insert_ptr = first;
+			Node* pre_insert = insert_ptr;
+
+			while (insert_ptr != cur_ptr && insert_ptr->val <= insert_val)
+			{
+				pre_insert = insert_ptr;
+				insert_ptr = insert_ptr->next;
+			}
+			if (insert_ptr != cur_ptr)
+			{
+				pre_cur->next = cur_ptr->next;
+
+				cur_ptr->next = insert_ptr;
+				pre_insert->next = cur_ptr;
+				cur_ptr = pre_cur->next;
+			}
+			else
+			{
+				pre_cur = pre_cur->next;
+				cur_ptr = pre_cur->next;
+			}
+		}
+	}
+	void QuickSort(Node* &first, Node* &tail)
+	{
+		if (first == NULL) return;
+		Node* first1, *first2, *tail1, *tail2,*pre1,*pre2;
+		first1 = first2 = tail1 = tail2 = pre1 = pre2 = NULL;
+
+		Node* pCurrent = first;
+		int key = first->val;
+		pCurrent = pCurrent->next;
+		first->next = NULL;
+
+		while (pCurrent != NULL)
+		{
+			if (pCurrent->val < key)
+			{
+				if (!first1)
+				{
+					first1 = pCurrent;
+					pre1 = first1;
+				}
+				else
+				{
+					pre1->next = pCurrent;
+					pre1 = pCurrent;
+				}
+				pCurrent = pCurrent->next;
+				pre1->next = NULL;
+			}
+			else
+			{
+				if (!first2)
+				{
+					first2 = pCurrent;
+					pre2 = first2;
+				}
+				else
+				{
+					pre2->next = pCurrent;
+					pre2 = pCurrent;
+				}
+				pCurrent = pCurrent->next;
+				pre2->next = NULL;
+			}
+		}
+		tail1 = pre1,tail2=pre2;
+
+		QuickSort(first1, tail1);
+		QuickSort(first2, tail2);
+
+		if (tail1 && first2)
+		{
+			tail1->next = first;
+			first->next = first2;
+			first = first1;
+			tail = tail2;
+		}
+		else if (!tail1)
+		{
+			first->next = first2;
+			tail = tail2;
+		}
+		else if (!first2)
+		{
+			tail1->next = first;
+			tail = first;
+			first = first1;
+		}
+	}
+
+	void qsort()
+	{
+		Node* tail = NULL;
+		QuickSort(first, tail);
 	}
 	/*查找：查找元素val的所有位置*/
 	/*反转：反转链表*/
@@ -191,6 +309,7 @@ public:
 
 };
 
+//}
 /*链表节点运算:
 	1.判断链表中是否有环
 	2.反向打印

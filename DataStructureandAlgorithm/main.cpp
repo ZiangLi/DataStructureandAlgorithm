@@ -5,13 +5,17 @@ using namespace std;
 
 int main()
 {
-	int a[3] = { 1, 2, 3 };
+	int a[4] = { 1, 4, 2, 3 };
 
-	LinkList List1(a,3);
+	LinkList List1(a,4);
 	LinkList List2(List1);
 	List2.insert(3, 4);
-	List2.swap(1, 3);
-	List2.print();
+
+	LinkList List3;
+	List3.build();
+	List3.print();
+	List3.sort();
+	List3.print();
 
 	return 0;
 }
