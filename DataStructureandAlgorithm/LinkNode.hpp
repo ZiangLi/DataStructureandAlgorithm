@@ -57,7 +57,9 @@ public:
 	{
 		printf("Call move construction!\n");
 		first = list.first;
+		length = list.length;
 		list.first = NULL;
+		list.length = 0;
 	}
 	/*Îö¹¹º¯Êý*/
 	~LinkList()
