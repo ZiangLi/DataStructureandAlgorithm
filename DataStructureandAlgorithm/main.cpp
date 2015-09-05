@@ -1,21 +1,29 @@
 #include <iostream>
+#include <string>
 #include "LinkNode.hpp"
 
 using namespace std;
 
 int main()
 {
-	int a[4] = { 1, 4, 2, 3 };
+	int a[4] = { 8,4, 6 };
+	int b[9] = { 9, 3,3,1,3,5,3,1,4 };
 
-	LinkList List1(a,4);
-	LinkList List2(List1);
-	List2.insert(3, 4);
+	try
+	{
 
-	LinkList List3;
-	List3.build();
-	List3.print();
-	List3.sort();
-	List3.print();
-
+		LinkList List1(a, 3);
+		LinkList List2(b, 9);
+		LinkList List3(a, 3);
+		LinkList List4=List1+List2+List3;
+		LinkList List5 = move(List4);
+		List4.print();
+		int a = 0;
+	}
+	catch (...)
+	{
+		cout<<"Invaild input!"<<endl;
+		exit(1);
+	}
 	return 0;
 }
